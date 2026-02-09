@@ -1,13 +1,19 @@
 package handlers
 
-import "net/http"
+import (
+	"net/http"
 
-type URLHandlers struct{}
+	"gorm.io/gorm"
+)
+
+type URLHandlers struct {
+	db *gorm.DB
+}
 
 func (uh *URLHandlers) GetUrls(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("GET urls route"))
+	w.Write([]byte("v1, GET urls route"))
 }
 
 func (uh *URLHandlers) PostUrls(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("POST urls route"))
+	w.Write([]byte("v1, POST urls route"))
 }

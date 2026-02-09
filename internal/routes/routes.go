@@ -2,14 +2,15 @@ package routes
 
 import (
 	"github.com/go-chi/chi/v5"
-	v1_routes "github.com/oustaa/go-url-shortner/internal/routes/v1"
+	routes_v1 "github.com/oustaa/go-url-shortner/internal/routes/v1"
+	"gorm.io/gorm"
 )
 
-func GetRoutes() *chi.Mux {
+func GetRoutes(db *gorm.DB) *chi.Mux {
 	router := chi.NewMux()
 
 	router.Route("/v1", func(r chi.Router) {
-		v1_routes.GetV1Routes(r)
+		routes_v1.GetV1Routes(r, db)
 	})
 
 	return router
