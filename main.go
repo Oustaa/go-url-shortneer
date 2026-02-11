@@ -10,6 +10,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/oustaa/go-url-shortner/internal/config"
 	"github.com/oustaa/go-url-shortner/internal/db"
+	"github.com/oustaa/go-url-shortner/internal/models"
 	"github.com/oustaa/go-url-shortner/internal/routes"
 )
 
@@ -32,6 +33,8 @@ func main() {
 		log.Fatalf("Error Connecting to the db: %V", err)
 	}
 
+	db.AutoMigrate(&models.User{}, &models.URL{}, &models.UrlStats{})
+
 	r := routes.GetRoutes(db)
 
 	s := &http.Server{
@@ -42,5 +45,6 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 
+	log.Printf("Application is runing on port %d", port)
 	log.Fatal(s.ListenAndServe())
 }

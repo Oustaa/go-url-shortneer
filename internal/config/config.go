@@ -22,10 +22,9 @@ func GetDBConfigFromEnv() (DBConfig, error) {
 		Name:     os.Getenv("DB_NAME"),
 	}
 
-	fmt.Printf("%#v\n", cfg)
-
 	if cfg.Host == "" || cfg.Port == "" || cfg.User == "" || cfg.Name == "" {
 		return DBConfig{}, fmt.Errorf("missing required DB env vars")
 	}
+
 	return cfg, nil
 }

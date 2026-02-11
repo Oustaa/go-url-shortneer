@@ -1,6 +1,9 @@
 package handlers
 
-import "gorm.io/gorm"
+import (
+	"github.com/oustaa/go-url-shortner/internal/services"
+	"gorm.io/gorm"
+)
 
 type V1Handlers struct {
 	URL *URLHandlers
@@ -9,7 +12,8 @@ type V1Handlers struct {
 func GetV1Handlers(db *gorm.DB) *V1Handlers {
 	return &V1Handlers{
 		URL: &URLHandlers{
-			db: db,
+			db:       db,
+			services: services.NewURLServices(db),
 		},
 	}
 }
