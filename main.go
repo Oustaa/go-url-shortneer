@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -33,9 +35,19 @@ func main() {
 		log.Fatalf("Error Connecting to the db: %V", err)
 	}
 
-	db.AutoMigrate(&models.User{}, &models.URL{}, &models.UrlStats{})
+	db.AutoMigrate(&models.User{}, &models.URL{}, &models.URLStats{})
 
 	r := routes.GetRoutes(db)
+
+	catchAllClientRoutesHandler := func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./public/index.html")
+	}
+
+	workDir, _ := os.Getwd()
+	filesDir := http.Dir(filepath.Join(workDir, "public"))
+	r.Handle("/public/*", http.StripPrefix("/public/", http.FileServer(filesDir)))
+
+	r.Get("/*", catchAllClientRoutesHandler)
 
 	s := &http.Server{
 		Addr:           fmt.Sprintf(":%d", port),

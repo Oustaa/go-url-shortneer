@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home page</title>
+
+    <script src="/public/js/app.js" type="module" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1><img src="/images/logo.png" height="35" alt="ReelingIt" /></h1>
+      <nav>
+        <ul>
+          <li><a class="navlink" href="/">Urls</a></li>
+          <li><a class="navlink" href="/url/create">create url</a></li>
+          <li><a class="navlink" href="/account/">My Account</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main></main>
+    <template id="template-createURL">
+      <form>
+        <div>
+          <label for="long_url">Url:</label>
+          <input name="long_url" id="long_url" />
+        </div>
+
+        <button type="submit">Create</button>
+      </form>
+    </template>
+  </body>
+</html>
