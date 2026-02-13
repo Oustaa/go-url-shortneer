@@ -5,23 +5,21 @@ import (
 	"gorm.io/gorm"
 )
 
-type URLServices struct {
+type URLService struct {
 	db *gorm.DB
 }
 
-// NewURLServices creates a new URLServices instance
-func NewURLServices(db *gorm.DB) *URLServices {
-	return &URLServices{
+func NewURLService(db *gorm.DB) *URLService {
+	return &URLService{
 		db: db,
 	}
 }
 
-// SetDB sets the database connection
-func (us *URLServices) SetDB(db *gorm.DB) {
+func (us *URLService) SetDB(db *gorm.DB) {
 	us.db = db
 }
 
-func (us *URLServices) GetUrls() (*[]models.URL, error) {
+func (us *URLService) GetUrls() (*[]models.URL, error) {
 	var urls []models.URL
 
 	result := us.db.Preload("User").Find(&urls)
@@ -33,5 +31,5 @@ func (us *URLServices) GetUrls() (*[]models.URL, error) {
 	return &urls, nil
 }
 
-func (us *URLServices) PostUrls() {
+func (us *URLService) PostUrls() {
 }
