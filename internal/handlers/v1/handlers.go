@@ -12,8 +12,8 @@ type V1Handlers struct {
 func GetV1Handlers(db *gorm.DB) *V1Handlers {
 	return &V1Handlers{
 		URL: &URLHandlers{
-			db:       db,
-			services: services.NewURLServices(db),
+			db:      db,
+			service: services.NewURLService(db),
 		},
 	}
 }

@@ -9,12 +9,12 @@ import (
 )
 
 type URLHandlers struct {
-	db       *gorm.DB
-	services *services.URLServices
+	db      *gorm.DB
+	service *services.URLService
 }
 
 func (uh *URLHandlers) GetUrls(w http.ResponseWriter, r *http.Request) {
-	urls, err := uh.services.GetUrls()
+	urls, err := uh.service.GetUrls()
 	if err != nil {
 		http.Error(w, "Enable to get the urls.", http.StatusInternalServerError)
 		return
