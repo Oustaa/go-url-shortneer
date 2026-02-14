@@ -1,5 +1,6 @@
 import { API } from "./services/API.js";
 import { Router } from "./services/Router.js";
+import Store from "./services/Store.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   app.Router.init();
@@ -8,4 +9,5 @@ window.addEventListener("DOMContentLoaded", () => {
 window.app = {
   API,
   Router,
+  Store,
 };

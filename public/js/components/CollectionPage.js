@@ -1,4 +1,4 @@
-import "./urls/URLItemComponent";
+import "./URLItemComponent.js";
 
 export class CollectionPage extends HTMLElement {
   constructor(endpoint, title) {

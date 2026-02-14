@@ -9,16 +9,29 @@
   </head>
   <body>
     <header>
-      <h1><img src="/images/logo.png" height="35" alt="ReelingIt" /></h1>
+      <h1><img src="/images/logo.png" height="35" alt="Url Shortner" /></h1>
       <nav>
         <ul>
+          <!--this should be visible only if user is loggedin-->
           <li><a class="navlink" href="/">Urls</a></li>
-          <li><a class="navlink" href="/url/create">create url</a></li>
-          <li><a class="navlink" href="/account/">My Account</a></li>
+          <li><a class="navlink" href="/urls/create">create url</a></li>
+          <li><a class="navlink" href="/account">My Account</a></li>
         </ul>
       </nav>
     </header>
     <main></main>
+    <template id="template-URLs">
+      <h1>Urls</h1>
+    </template>
+
+    <template id="template-Login">
+      <h1>Login</h1>
+    </template>
+
+    <template id="template-account">
+      <h1>Account</h1>
+    </template>
+
     <template id="template-createURL">
       <form>
         <div>
