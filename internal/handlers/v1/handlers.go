@@ -6,7 +6,8 @@ import (
 )
 
 type V1Handlers struct {
-	URL *URLHandlers
+	URL  *URLHandlers
+	Auth *AuthHandler
 }
 
 func GetV1Handlers(db *gorm.DB) *V1Handlers {
@@ -14,6 +15,9 @@ func GetV1Handlers(db *gorm.DB) *V1Handlers {
 		URL: &URLHandlers{
 			db:      db,
 			service: services.NewURLService(db),
+		},
+		Auth: &AuthHandler{
+			db: db,
 		},
 	}
 }

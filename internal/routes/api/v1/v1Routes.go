@@ -7,4 +7,5 @@ import (
 
 func GetV1Routes(r chi.Router, db *gorm.DB) {
 	GetUrlsRoutes(r, db)
+	GetAuthRoutes(r, db)
 }

@@ -1,4 +1,4 @@
-package api
+package api_routes
 
 import (
 	"github.com/go-chi/chi/v5"

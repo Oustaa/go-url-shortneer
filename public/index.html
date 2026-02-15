@@ -4,12 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home page</title>
-
+    <link rel="stylesheet" href="/public/css/main.css" />
     <script src="/public/js/app.js" type="module" defer></script>
   </head>
   <body>
-    <header>
-      <h1><img src="/images/logo.png" height="35" alt="Url Shortner" /></h1>
+    <header class="container">
+      <div class="logo-conatiner">
+        <img src="/public/images/logo.png" height="35" alt="Url Shortner" />
+        <h2>Url Shortner</h2>
+      </div>
       <nav>
         <ul>
           <!--this should be visible only if user is loggedin-->
@@ -19,13 +22,46 @@
         </ul>
       </nav>
     </header>
-    <main></main>
+    <main class="container"></main>
+
+    <dialog id="alert-modal">
+      <h3>Error</h3>
+      <ul>
+        There was en error loading the page
+      </ul>
+      <button onclick="app.closeError()">Ok</button>
+    </dialog>
+
     <template id="template-URLs">
       <h1>Urls</h1>
     </template>
 
     <template id="template-Login">
       <h1>Login</h1>
+      <a href="/account/register">Create account</a>
+    </template>
+
+    <template id="template-Register">
+      <h1>Create Account</h1>
+      <div>
+        <form class="rejester-form" onsubmit="app.createAccount(event)">
+          <input type="text" name="username" placeholder="Username" />
+          <input type="email" name="email" placeholder="Email" />
+          <input type="password" name="password" placeholder="Password" />
+          <input
+            type="password"
+            name="confirm-password"
+            placeholder="Confirm Password"
+          />
+          <div>
+            <button type="submit">Create</button>
+          </div>
+
+          <span>
+            Already Have Account, <a href="/account/login">Login</a>
+          </span>
+        </form>
+      </div>
     </template>
 
     <template id="template-account">

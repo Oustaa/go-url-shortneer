@@ -1,4 +1,4 @@
-import { routes } from "./routes.js";
+import { routes } from "./Routes.js";
 
 export const Router = {
   init() {
@@ -30,7 +30,7 @@ export const Router = {
     }
 
     if (pageElement) {
-      if (authRequired && app.Store.jwt) {
+      if (authRequired && !app.Store.jwt) {
         app.Router.go("/account/login");
         return;
       }
