@@ -17,7 +17,8 @@ func GetV1Handlers(db *gorm.DB) *V1Handlers {
 			service: services.NewURLService(db),
 		},
 		Auth: &AuthHandler{
-			db: db,
+			db:      db,
+			service: services.NewUserService(db),
 		},
 	}
 }

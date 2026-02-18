@@ -10,6 +10,6 @@ func GetAuthRoutes(r chi.Router, db *gorm.DB) {
 	h := handlers.GetHandlers(db)
 
 	r.Route("/auth", func(r chi.Router) {
-		r.Post("/create-account", h.V1.Auth.CreateAccount)
+		r.Post("/create-account", h.V1.Auth.SignIn)
 	})
 }

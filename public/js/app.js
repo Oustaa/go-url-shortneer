@@ -54,7 +54,6 @@ window.app = {
 
     if (errors.length !== 0) {
       const errorsList = errors.reduce((prev, err) => {
-        console.log({ err, prev });
         return prev + `<li>${err}<li>`;
       }, "");
 
@@ -62,10 +61,10 @@ window.app = {
       return;
     }
 
-    const responce = await API.createAccount(username, email, password);
+    const response = await API.createAccount(username, email, password);
 
-    // if (response.success) {
-    // }
     app.Store.jwt = response.jwt;
+
+    app.Router.go("/");
   },
 };
