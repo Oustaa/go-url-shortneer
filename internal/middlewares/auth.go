@@ -1,24 +1,43 @@
 package middlewares
 
 import (
+	"context"
+	"fmt"
 	"net/http"
+	"strings"
+
+	"github.com/oustaa/go-url-shortner/internal/utils"
 )
+
+type ContextKey string
+
+const UserIDKey ContextKey = "userID"
 
 func RequireAuth(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// authKey := r.URL.Query().Get("auth_key")
+		bearerToken := r.Header.Get("Authorization")
+		if bearerToken == "" {
+			http.Error(w, "bearer token is not provided", http.StatusUnauthorized)
+			return
+		}
 
-		// if authKey != "123456789" {
-		// 	http.Error(w, "Unauthorized..", http.StatusUnauthorized)
-		// 	return
-		// }
+		parts := strings.Split(bearerToken, "Bearer ")
 
-		// check if there is an auth_token
-		// if no, go next
-		// if yes check if it is valid one
-		// if not valid, go next
-		// if valid, get user_id from it, then fetch the user, and add it to a context.
+		if len(parts) != 2 {
+			http.Error(w, "invalid authorization format", http.StatusUnauthorized)
+			return
+		}
 
-		next.ServeHTTP(w, r)
+		token := parts[1]
+
+		claimed, err := utils.ValidateToken(token)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("bearer token is invalid, %s.", err.Error()), http.StatusUnauthorized)
+			return
+		}
+
+		ctx := context.WithValue(r.Context(), UserIDKey, claimed.UserID)
+
+		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

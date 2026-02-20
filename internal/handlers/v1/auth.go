@@ -49,9 +49,28 @@ func (ah AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	var body LoginPayload
 	json.NewDecoder(r.Body).Decode(&body)
 
-	err := bcrypt.CompareHashAndPassword([]byte(""), []byte(body.Password))
+	user, err := ah.service.GetUserByLogin(body.Login)
 	if err != nil {
-		fmt.Println("Password does not match:", err)
+		http.Error(w, "Credential are not valid", http.StatusBadRequest)
 		return
 	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(body.Password))
+	if err != nil {
+		fmt.Printf("Password does not match: %#v\n", err.Error())
+		return
+	}
+
+	token, err := utils.GenerateJWT(user.ID)
+	if err != nil {
+		http.Error(w, "error generating JWT", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("content-type", "application/json")
+	json.NewEncoder(w).Encode(struct {
+		JWT string `json:"jwt"`
+	}{
+		JWT: token,
+	})
 }

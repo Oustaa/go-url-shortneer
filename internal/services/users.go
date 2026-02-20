@@ -46,3 +46,17 @@ func (us UserService) CreateUser(body UserPayload) (*models.User, error) {
 
 	return &user, nil
 }
+
+func (us UserService) GetUserByLogin(login string) (*models.User, error) {
+	var user models.User
+
+	result := us.db.
+		Where("username LIKE ? OR email LIKE ?", "%"+login+"%", "%"+login+"%").
+		First(&user)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &user, nil
+}

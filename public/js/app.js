@@ -4,6 +4,7 @@ import Store from "./services/Store.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   app.Router.init();
+  app.authUi();
 });
 
 window.app = {
@@ -66,5 +67,36 @@ window.app = {
     app.Store.jwt = response.jwt;
 
     app.Router.go("/");
+  },
+
+  async login(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+
+    const password = formData.get("password");
+    const login = formData.get("login");
+
+    const response = await API.logIn(login, password);
+
+    app.Store.jwt = response.jwt;
+
+    app.Router.go("/");
+  },
+
+  // helpers
+  authUi() {
+    const authedLinked = document.querySelector("template#loggedin-links");
+    const unAuthedLinked = document.querySelector(
+      "template#not-loggedin-links",
+    );
+
+    const navUl = document.querySelector("header > nav > ul");
+
+    if (app.Store.jwt) {
+      navUl.append(authedLinked.content.cloneNode(true));
+    } else {
+      navUl.append(unAuthedLinked.content.cloneNode(true));
+    }
   },
 };

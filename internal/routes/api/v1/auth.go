@@ -11,5 +11,6 @@ func GetAuthRoutes(r chi.Router, db *gorm.DB) {
 
 	r.Route("/auth", func(r chi.Router) {
 		r.Post("/create-account", h.V1.Auth.SignIn)
+		r.Post("/login", h.V1.Auth.Login)
 	})
 }

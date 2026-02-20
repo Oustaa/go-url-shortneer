@@ -15,10 +15,15 @@
       </div>
       <nav>
         <ul>
-          <!--this should be visible only if user is loggedin-->
           <li><a class="navlink" href="/">Urls</a></li>
           <li><a class="navlink" href="/urls/create">create url</a></li>
-          <li><a class="navlink" href="/account">My Account</a></li>
+          <template id="not-loggedin-links">
+            <li><a class="navlink" href="/account">My Account</a></li>
+          </template>
+          <template id="loggedin-links">
+            <li><a class="navlink" href="/account/logout">Logout</a></li>
+            <li><a class="navlink" href="/account">My Account</a></li>
+          </template>
         </ul>
       </nav>
     </header>
@@ -34,11 +39,25 @@
 
     <template id="template-URLs">
       <h1>Urls</h1>
+      <ul></ul>
     </template>
 
     <template id="template-Login">
       <h1>Login</h1>
-      <a href="/account/register">Create account</a>
+      <form class="rejester-form" onsubmit="app.login(event)">
+        <input type="text" name="login" placeholder="Login" />
+        <input type="password" name="password" placeholder="Password" />
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <button type="submit">Login</button>
+          <a href="/account/register">Create account</a>
+        </div>
+      </form>
     </template>
 
     <template id="template-Register">
@@ -56,11 +75,8 @@
           <div>
             <button type="submit">Create</button>
           </div>
-
-          <span>
-            Already Have Account, <a href="/account/login">Login</a>
-          </span>
         </form>
+        <span> Already Have Account, <a href="/account/login">Login</a> </span>
       </div>
     </template>
 

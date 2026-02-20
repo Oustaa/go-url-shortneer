@@ -2,7 +2,7 @@ export const API = {
   baseURL: "/api/v1/",
   // urls
   getUrls: async () => {
-    return await API.fetch("/api/v1/urls");
+    return await API.fetch("urls");
   },
   // auth
   login: async (login, password) => {
@@ -15,6 +15,13 @@ export const API = {
     return await API.send("auth/create-account", {
       username,
       email,
+      password,
+    });
+  },
+
+  logIn: async (login, password) => {
+    return await API.send("auth/login", {
+      login,
       password,
     });
   },

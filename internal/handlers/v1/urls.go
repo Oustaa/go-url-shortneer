@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/oustaa/go-url-shortner/internal/middlewares"
 	"github.com/oustaa/go-url-shortner/internal/services"
 	"gorm.io/gorm"
 )
@@ -14,7 +15,15 @@ type URLHandlers struct {
 }
 
 func (uh *URLHandlers) GetUrls(w http.ResponseWriter, r *http.Request) {
-	urls, err := uh.service.GetUrls()
+	userID := r.Context().Value(middlewares.UserIDKey)
+	if userID == nil {
+		http.Error(w, "userID not found in context", http.StatusInternalServerError)
+		return
+	}
+
+	id := userID.(int64)
+
+	urls, err := uh.service.GetUserUrls(id)
 	if err != nil {
 		http.Error(w, "Enable to get the urls.", http.StatusInternalServerError)
 		return
