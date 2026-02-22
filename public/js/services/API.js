@@ -1,8 +1,11 @@
 export const API = {
   baseURL: "/api/v1/",
   // urls
-  getUrls: async () => {
+  getURLs: async () => {
     return await API.fetch("urls");
+  },
+  createURL: async (body) => {
+    return await API.send("urls", body);
   },
   // auth
   login: async (login, password) => {
@@ -37,7 +40,13 @@ export const API = {
         },
         body: JSON.stringify(data),
       });
+
+      if (response.status === 401) {
+        app.Router.go("/account/login");
+      }
+
       const result = await response.json();
+
       return result;
     } catch (e) {
       console.error(e);
@@ -54,6 +63,11 @@ export const API = {
           },
         },
       );
+
+      if (response.status === 401) {
+        app.Router.go("/account/login");
+      }
+
       const result = await response.json();
       return result;
     } catch (e) {

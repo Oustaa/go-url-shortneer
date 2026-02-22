@@ -12,7 +12,7 @@ export class URLsPage extends HTMLElement {
     const template = document.getElementById("template-URLs");
     const content = template.content.cloneNode(true);
 
-    const urls = await API.getUrls();
+    const urls = await API.getURLs();
 
     const table = document.createElement("table");
 

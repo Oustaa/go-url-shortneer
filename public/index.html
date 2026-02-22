@@ -39,7 +39,6 @@
 
     <template id="template-URLs">
       <h1>Urls</h1>
-      <ul></ul>
     </template>
 
     <template id="template-Login">
@@ -85,7 +84,7 @@
     </template>
 
     <template id="template-createURL">
-      <form>
+      <form onsubmit="app.createURL(event)">
         <div>
           <label for="long_url">Url:</label>
           <input name="long_url" id="long_url" />

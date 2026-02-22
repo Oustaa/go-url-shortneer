@@ -2,11 +2,16 @@ package utils
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
+
+type ContextKey string
+
+const UserIDKey ContextKey = "userID"
 
 type Claims struct {
 	UserID int64 `json:"userId"`
@@ -51,4 +56,16 @@ func ValidateToken(tokenString string) (*Claims, error) {
 	}
 
 	return claims, nil
+}
+
+func GetUserID(r *http.Request) int64 {
+	userID := r.Context().Value(UserIDKey)
+
+	if userID == nil {
+		return 0
+	}
+
+	id := userID.(int64)
+
+	return id
 }

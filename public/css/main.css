@@ -95,6 +95,12 @@ header {
   }
 }
 
+#template-createURL {
+  form {
+    background-color: gray;
+  }
+}
+
 .rejester-form {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,14 @@
 package utils
 
-func DecryptURL(url string) (string, error) {
-	return url, nil
+import (
+	"crypto/md5"
+	"encoding/hex"
+)
+
+func EncodeURL(url string) string {
+	hasher := md5.New()
+	hasher.Write([]byte(url))
+
+	hashInBytes := hasher.Sum(nil)
+	return hex.EncodeToString(hashInBytes)
 }

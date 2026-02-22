@@ -1,7 +1,10 @@
 package services
 
 import (
+	"errors"
+
 	"github.com/oustaa/go-url-shortner/internal/models"
+	"github.com/oustaa/go-url-shortner/internal/utils"
 	"gorm.io/gorm"
 )
 
@@ -43,5 +46,35 @@ func (us *URLService) GetUrls() (*[]models.URL, error) {
 	return &urls, nil
 }
 
-func (us *URLService) PostUrls() {
+func (us *URLService) PostUrls(longURL string, userID int64) (*models.URL, error) {
+	var url models.URL
+	var shortURL string
+
+	for {
+		shortURL = utils.EncodeURL(longURL)
+
+		err := us.db.
+			Where("short_url = ?", shortURL).
+			First(&url).Error
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				break
+			}
+
+			return nil, err
+		}
+	}
+
+	newURL := models.URL{
+		LongURL:  longURL,
+		ShortURL: shortURL,
+		UserID:   &userID,
+		Visits:   0,
+	}
+
+	if err := us.db.Create(&newURL).Error; err != nil {
+		return nil, err
+	}
+
+	return &newURL, nil
 }

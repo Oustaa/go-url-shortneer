@@ -9,10 +9,6 @@ import (
 	"github.com/oustaa/go-url-shortner/internal/utils"
 )
 
-type ContextKey string
-
-const UserIDKey ContextKey = "userID"
-
 func RequireAuth(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		bearerToken := r.Header.Get("Authorization")
@@ -36,7 +32,7 @@ func RequireAuth(next http.Handler) http.Handler {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), UserIDKey, claimed.UserID)
+		ctx := context.WithValue(r.Context(), utils.UserIDKey, claimed.UserID)
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})

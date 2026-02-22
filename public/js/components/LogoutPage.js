@@ -1,6 +1,4 @@
-import { CollectionPage } from "../components/CollectionPage.js";
-
-export class LogoutPage extends CollectionPage {
+export class LogoutPage {
   constructor() {
     app.Store.jwt = "";
     app.Router.go("/account/login");

@@ -35,7 +35,7 @@ func main() {
 		log.Fatalf("Error Connecting to the db: %V", err)
 	}
 
-	db.AutoMigrate(&models.User{}, &models.URL{}, &models.URLStats{})
+	db.AutoMigrate(&models.User{}, &models.URL{})
 
 	r := routes.GetRoutes(db)
 

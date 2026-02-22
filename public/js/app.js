@@ -84,6 +84,21 @@ window.app = {
     app.Router.go("/");
   },
 
+  // urls
+  async createURL(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+
+    const longUrl = formData.get("long_url");
+
+    const response = await API.createURL({ longUrl });
+
+    const data = await response.json();
+
+    console.log({ data });
+  },
+
   // helpers
   authUi() {
     const authedLinked = document.querySelector("template#loggedin-links");
