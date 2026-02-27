@@ -78,3 +78,15 @@ func (us *URLService) PostUrls(longURL string, userID int64) (*models.URL, error
 
 	return &newURL, nil
 }
+
+func (us *URLService) GetURLByShortHash(shortURL string) (*models.URL, error) {
+	var url models.URL
+
+	result := us.db.Where("short_url = ?", shortURL).First(&url)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &url, nil
+}

@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/oustaa/go-url-shortner/internal/services"
 	"github.com/oustaa/go-url-shortner/internal/utils"
@@ -49,4 +51,22 @@ func (uh *URLHandlers) PostUrls(w http.ResponseWriter, r *http.Request) {
 	}
 
 	utils.SendResponce(w, url)
+}
+
+func RedirectURL(service services.URLService) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		shortHash := strings.TrimPrefix(r.URL.Path, "/")
+
+		url, err := service.GetURLByShortHash(shortHash)
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				http.Error(w, "Short URL not found", http.StatusNotFound)
+				return
+			}
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		http.Redirect(w, r, url.LongURL, http.StatusTemporaryRedirect)
+	}
 }
