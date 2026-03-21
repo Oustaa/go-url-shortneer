@@ -34,6 +34,25 @@ func (us *URLService) GetUserUrls(userID int64) (*[]models.URL, error) {
 	return &urls, nil
 }
 
+func (us *URLService) GetArchivedUrls(userID int64) (*[]models.URL, error) {
+	var urls []models.URL
+
+	result := us.db.
+		Unscoped().
+		Where("user_id = ? AND deleted IS NOT NULL", userID).
+		Find(&urls)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &urls, nil
+}
+
+func (us *URLService) RestoreUrl(userID int64) (*models.URL, error) {
+	return nil, nil
+}
+
 func (us *URLService) GetUrls() (*[]models.URL, error) {
 	var urls []models.URL
 
@@ -79,6 +98,12 @@ func (us *URLService) PostUrls(longURL string, userID int64) (*models.URL, error
 	return &newURL, nil
 }
 
+func (us *URLService) DeleteURL(urlID int64) error {
+	result := us.db.Where("id = ?", urlID).Delete(&models.URL{})
+
+	return result.Error
+}
+
 func (us *URLService) GetURLByShortHash(shortURL string) (*models.URL, error) {
 	var url models.URL
 
@@ -89,4 +114,14 @@ func (us *URLService) GetURLByShortHash(shortURL string) (*models.URL, error) {
 	}
 
 	return &url, nil
+}
+
+func (us *URLService) IncreaseVisits(url *models.URL) error {
+	url.Visits += 1
+
+	if err := us.db.Save(url).Error; err != nil {
+		return err
+	}
+
+	return nil
 }

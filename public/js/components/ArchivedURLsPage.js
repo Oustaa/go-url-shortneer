@@ -1,6 +1,6 @@
 import { API } from "../services/API.js";
 
-export class URLsPage extends HTMLElement {
+export class ArchivedURLsPage extends HTMLElement {
   constructor() {
     super();
     this.loading = false;
@@ -12,7 +12,9 @@ export class URLsPage extends HTMLElement {
     const template = document.getElementById("template-URLs");
     const content = template.content.cloneNode(true);
 
-    const urls = await API.getURLs();
+    const urls = await API.getArchivedUrls();
+
+    console.log({ urls });
 
     const table = document.createElement("table");
 
@@ -44,14 +46,14 @@ export class URLsPage extends HTMLElement {
 
       const actionsCell = document.createElement("td");
 
-      const deleteButton = document.createElement("button");
-      deleteButton.textContent = "Delete";
+      const restoreButton = document.createElement("button");
+      restoreButton.textContent = "Restore";
 
-      deleteButton.addEventListener("click", async () => {
-        await API.deleteURL(element);
+      restoreButton.addEventListener("click", async () => {
+        await API.restoreURL(element);
       });
 
-      actionsCell.append(deleteButton);
+      actionsCell.append(restoreButton);
 
       row.append(shortCell, longCell, vistsCell, actionsCell);
       tbody.appendChild(row);
@@ -66,4 +68,4 @@ export class URLsPage extends HTMLElement {
   }
 }
 
-customElements.define("urls-page", URLsPage);
+customElements.define("archived-urls-page", ArchivedURLsPage);

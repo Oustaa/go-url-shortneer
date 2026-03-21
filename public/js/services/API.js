@@ -4,8 +4,20 @@ export const API = {
   getURLs: async () => {
     return await API.fetch("urls");
   },
+  getArchivedUrls: async () => {
+    return await API.fetch("urls/archived");
+  },
   createURL: async (body) => {
     return await API.send("urls", body);
+  },
+  deleteURL: async (url) => {
+    return await fetch(`${API.baseURL}urls/${url.short_url}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: app.Store.jwt ? `Bearer ${app.Store.jwt}` : null,
+      },
+    });
   },
   // auth
   login: async (login, password) => {

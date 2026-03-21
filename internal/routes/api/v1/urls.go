@@ -13,6 +13,9 @@ func GetUrlsRoutes(r chi.Router, db *gorm.DB) {
 	r.Route("/urls", func(r chi.Router) {
 		r.Use(middlewares.RequireAuth)
 		r.Get("/", h.V1.URL.GetUrls)
+		r.Get("/archived", h.V1.URL.GetArchivedUrls)
+
 		r.Post("/", h.V1.URL.PostUrls)
+		r.Delete("/{urlHash}", h.V1.URL.DeleteURL)
 	})
 }

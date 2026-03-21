@@ -2,10 +2,10 @@ package routes
 
 import (
 	"github.com/go-chi/chi/v5"
-	"github.com/oustaa/go-url-shortner/internal/handlers/v1"
+	_ "github.com/oustaa/go-url-shortner/internal/handlers/v1"
 	api_routes "github.com/oustaa/go-url-shortner/internal/routes/api"
 	web_routes "github.com/oustaa/go-url-shortner/internal/routes/web"
-	"github.com/oustaa/go-url-shortner/internal/services"
+	_ "github.com/oustaa/go-url-shortner/internal/services"
 	"gorm.io/gorm"
 )
 
@@ -18,7 +18,7 @@ func GetRoutes(db *gorm.DB) *chi.Mux {
 
 	web_routes.GetWEBRoutes(router, db)
 
-	router.Get("/{shortCode}", handlers.RedirectURL(*services.NewURLService(db)))
+	// router.Get("/{shortCode}", handlers.RedirectURL(*services.NewURLService(db)))
 
 	return router
 }
